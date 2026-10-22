@@ -182,6 +182,16 @@ describe('buildCommandRegistry', () => {
     expect(aiItems.length).toBeGreaterThan(0);
   });
 
+  it('should include AI panel items in production', () => {
+    vi.stubEnv('NODE_ENV', 'production');
+    try {
+      const items = buildCommandRegistry(createMockOptions());
+      expect(items.filter((i) => i.panel === 'AI').length).toBeGreaterThan(0);
+    } finally {
+      vi.unstubAllEnvs();
+    }
+  });
+
   it('should give each settings item keywords and section', () => {
     const items = buildCommandRegistry(createMockOptions());
     const settingsItems = items.filter((i) => i.category === 'settings');
