@@ -1,6 +1,6 @@
 import type { LanguageModel, EmbeddingModel } from 'ai';
 
-export type AIProviderName = 'ollama' | 'ai-gateway' | 'openrouter';
+export type AIProviderName = 'ollama' | 'ai-gateway' | 'openrouter' | 'anthropic';
 
 export interface AIProvider {
   id: AIProviderName;
@@ -8,7 +8,8 @@ export interface AIProvider {
   requiresAuth: boolean;
 
   getModel(): LanguageModel;
-  getEmbeddingModel(): EmbeddingModel;
+  // null when the provider offers no embeddings; search then uses BM25 only.
+  getEmbeddingModel(): EmbeddingModel | null;
 
   isAvailable(): Promise<boolean>;
   healthCheck(): Promise<boolean>;
@@ -33,6 +34,9 @@ export interface AISettings {
   openrouterBaseUrl?: string;
   openrouterModel?: string;
   openrouterEmbeddingModel?: string;
+
+  anthropicApiKey?: string;
+  anthropicModel?: string;
 
   spoilerProtection: boolean;
   maxContextChunks: number;

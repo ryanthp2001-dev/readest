@@ -10,6 +10,12 @@ export const GATEWAY_MODELS = {
   QWEN_3_235B: 'alibaba/qwen-3-235b',
 } as const;
 
+export const ANTHROPIC_MODELS = {
+  OPUS: 'claude-opus-5-5',
+  SONNET: 'claude-sonnet-5-5',
+  HAIKU: 'claude-haiku-5-5',
+} as const;
+
 export const MODEL_PRICING: Record<string, { input: string; output: string }> = {
   [GATEWAY_MODELS.GEMINI_FLASH_LITE]: { input: '0.1', output: '0.4' },
   [GATEWAY_MODELS.GPT_5_NANO]: { input: '0.05', output: '0.4' },

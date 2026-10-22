@@ -191,6 +191,7 @@ function randomSessionId(): string {
 function adaptEmbeddingModel(settings: AISettings): ReedyEmbeddingModel {
   const provider = getAIProvider(settings);
   const vercelModel = provider.getEmbeddingModel();
+  if (!vercelModel) throw new Error('Reedy needs an AI provider with an embedding model');
   const id = embeddingModelIdFor(settings);
   const batchSize = settings.provider === 'ollama' ? 4 : 16;
 
@@ -238,6 +239,8 @@ function embeddingModelIdFor(settings: AISettings): string {
       return settings.aiGatewayEmbeddingModel || 'openai/text-embedding-3-small';
     case 'openrouter':
       return settings.openrouterEmbeddingModel || 'openai/text-embedding-3-small';
+    case 'anthropic':
+      return 'none';
   }
 }
 

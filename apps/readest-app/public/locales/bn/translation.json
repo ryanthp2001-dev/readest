@@ -2609,5 +2609,8 @@
   "Show Page Thumbnails": "পৃষ্ঠার থাম্বনেইল দেখান",
   "Allow Self-Signed Certificate": "স্ব-স্বাক্ষরিত সার্টিফিকেট অনুমতি দিন",
   "Skips certificate checks for this server. Turn it off if the server has a valid certificate": "এই সার্ভারের জন্য সার্টিফিকেট যাচাই এড়িয়ে যায়। সার্ভারের বৈধ সার্টিফিকেট থাকলে এটি বন্ধ করুন",
-  "Some changes didn't sync because this device's clock is off. Set the date and time automatically, then try again.": "এই ডিভাইসের ঘড়ি ঠিক না থাকায় কিছু পরিবর্তন সিঙ্ক হয়নি। তারিখ ও সময় স্বয়ংক্রিয়ভাবে সেট করুন, তারপর আবার চেষ্টা করুন।"
+  "Some changes didn't sync because this device's clock is off. Set the date and time automatically, then try again.": "এই ডিভাইসের ঘড়ি ঠিক না থাকায় কিছু পরিবর্তন সিঙ্ক হয়নি। তারিখ ও সময় স্বয়ংক্রিয়ভাবে সেট করুন, তারপর আবার চেষ্টা করুন।",
+  "Claude (Anthropic)": "Claude (Anthropic)",
+  "Claude Configuration": "Claude কনফিগারেশন",
+  "Bring your own Anthropic API key. Claude has no embedding model, so book search uses keyword matching.": "আপনার নিজের Anthropic API কী ব্যবহার করুন। Claude-এর কোনো এমবেডিং মডেল নেই, তাই বইয়ে অনুসন্ধান কীওয়ার্ড মিলিয়ে করা হয়।"
 }

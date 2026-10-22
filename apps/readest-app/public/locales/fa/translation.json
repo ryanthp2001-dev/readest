@@ -2609,5 +2609,8 @@
   "Show Page Thumbnails": "نمایش تصاویر کوچک صفحات",
   "Allow Self-Signed Certificate": "اجازه به گواهی خودامضا",
   "Skips certificate checks for this server. Turn it off if the server has a valid certificate": "بررسی گواهی این سرور را نادیده می‌گیرد. اگر سرور گواهی معتبر دارد، آن را خاموش کنید",
-  "Some changes didn't sync because this device's clock is off. Set the date and time automatically, then try again.": "برخی تغییرات همگام‌سازی نشدند، چون ساعت این دستگاه درست نیست. تاریخ و زمان را روی تنظیم خودکار بگذارید و دوباره امتحان کنید."
+  "Some changes didn't sync because this device's clock is off. Set the date and time automatically, then try again.": "برخی تغییرات همگام‌سازی نشدند، چون ساعت این دستگاه درست نیست. تاریخ و زمان را روی تنظیم خودکار بگذارید و دوباره امتحان کنید.",
+  "Claude (Anthropic)": "Claude (Anthropic)",
+  "Claude Configuration": "پیکربندی Claude",
+  "Bring your own Anthropic API key. Claude has no embedding model, so book search uses keyword matching.": "از کلید API خودتان در Anthropic استفاده کنید. Claude مدل embedding ندارد، بنابراین جستجو در کتاب با تطبیق کلیدواژه انجام می‌شود."
 }

@@ -2739,5 +2739,8 @@
   "Show Page Thumbnails": "Prikaži sličice strani",
   "Allow Self-Signed Certificate": "Dovoli samopodpisano potrdilo",
   "Skips certificate checks for this server. Turn it off if the server has a valid certificate": "Preskoči preverjanje potrdila za ta strežnik. Izklopite, če ima strežnik veljavno potrdilo",
-  "Some changes didn't sync because this device's clock is off. Set the date and time automatically, then try again.": "Nekatere spremembe se niso sinhronizirale, ker ura te naprave ni točna. Nastavite datum in čas samodejno ter poskusite znova."
+  "Some changes didn't sync because this device's clock is off. Set the date and time automatically, then try again.": "Nekatere spremembe se niso sinhronizirale, ker ura te naprave ni točna. Nastavite datum in čas samodejno ter poskusite znova.",
+  "Claude (Anthropic)": "Claude (Anthropic)",
+  "Claude Configuration": "Konfiguracija Claude",
+  "Bring your own Anthropic API key. Claude has no embedding model, so book search uses keyword matching.": "Uporabite svoj ključ Anthropic API. Claude nima modela vdelav, zato iskanje po knjigi uporablja ujemanje ključnih besed."
 }

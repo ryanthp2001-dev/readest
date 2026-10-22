@@ -1,6 +1,7 @@
 import { embed, embedMany } from 'ai';
 import { getAIProvider } from '@/services/ai/providers';
 import type { AISettings } from '@/services/ai/types';
+import { ANTHROPIC_MODELS } from '@/services/ai/constants';
 import type { ChatModel } from './ChatModel';
 import type { EmbeddingModel } from './EmbeddingModel';
 
@@ -17,13 +18,11 @@ export interface ReedyModels {
 
 export function createReedyModels(settings: AISettings): ReedyModels {
   const provider = getAIProvider(settings);
+  const embeddingModel = provider.getEmbeddingModel();
+  if (!embeddingModel) throw new Error('Reedy needs an AI provider with an embedding model');
   return {
     chat: adaptChatModel(provider.getModel(), chatModelIdFor(settings)),
-    embedding: adaptEmbeddingModel(
-      provider.getEmbeddingModel(),
-      embeddingModelIdFor(settings),
-      settings,
-    ),
+    embedding: adaptEmbeddingModel(embeddingModel, embeddingModelIdFor(settings), settings),
   };
 }
 
@@ -120,6 +119,8 @@ function chatModelIdFor(settings: AISettings): string {
       );
     case 'openrouter':
       return settings.openrouterModel || 'openai/gpt-4o-mini';
+    case 'anthropic':
+      return settings.anthropicModel || ANTHROPIC_MODELS.OPUS;
   }
 }
 
@@ -173,5 +174,7 @@ function embeddingModelIdFor(settings: AISettings): string {
       return settings.aiGatewayEmbeddingModel || 'openai/text-embedding-3-small';
     case 'openrouter':
       return settings.openrouterEmbeddingModel || 'openai/text-embedding-3-small';
+    case 'anthropic':
+      return 'none';
   }
 }

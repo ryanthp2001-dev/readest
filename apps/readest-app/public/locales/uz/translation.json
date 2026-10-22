@@ -2609,5 +2609,8 @@
   "Show Page Thumbnails": "Sahifa eskizlarini ko'rsatish",
   "Allow Self-Signed Certificate": "O‘zi imzolagan sertifikatga ruxsat berish",
   "Skips certificate checks for this server. Turn it off if the server has a valid certificate": "Ushbu server uchun sertifikat tekshiruvini o‘tkazib yuboradi. Serverda haqiqiy sertifikat bo‘lsa, uni o‘chiring",
-  "Some changes didn't sync because this device's clock is off. Set the date and time automatically, then try again.": "Ba'zi o'zgarishlar sinxronlanmadi, chunki bu qurilmaning soati noto'g'ri. Sana va vaqtni avtomatik sozlang, so'ng qayta urinib ko'ring."
+  "Some changes didn't sync because this device's clock is off. Set the date and time automatically, then try again.": "Ba'zi o'zgarishlar sinxronlanmadi, chunki bu qurilmaning soati noto'g'ri. Sana va vaqtni avtomatik sozlang, so'ng qayta urinib ko'ring.",
+  "Claude (Anthropic)": "Claude (Anthropic)",
+  "Claude Configuration": "Claude konfiguratsiyasi",
+  "Bring your own Anthropic API key. Claude has no embedding model, so book search uses keyword matching.": "O‘zingizning Anthropic API kalitingizdan foydalaning. Claude’da embedding modeli yo‘q, shuning uchun kitobdan qidirish kalit so‘zlar mosligi bo‘yicha ishlaydi."
 }

@@ -2544,5 +2544,8 @@
   "Show Page Thumbnails": "顯示頁面縮圖",
   "Allow Self-Signed Certificate": "允許自簽憑證",
   "Skips certificate checks for this server. Turn it off if the server has a valid certificate": "將略過此伺服器的憑證驗證。如果伺服器有有效的憑證，請關閉此選項",
-  "Some changes didn't sync because this device's clock is off. Set the date and time automatically, then try again.": "此裝置的時鐘不準確，部分變更未能同步。請將日期和時間設為自動設定，然後再試一次。"
+  "Some changes didn't sync because this device's clock is off. Set the date and time automatically, then try again.": "此裝置的時鐘不準確，部分變更未能同步。請將日期和時間設為自動設定，然後再試一次。",
+  "Claude (Anthropic)": "Claude (Anthropic)",
+  "Claude Configuration": "Claude 設定",
+  "Bring your own Anthropic API key. Claude has no embedding model, so book search uses keyword matching.": "使用你自己的 Anthropic API 金鑰。Claude 沒有向量模型，因此書內搜尋使用關鍵字比對。"
 }

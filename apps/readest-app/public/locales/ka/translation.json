@@ -2609,5 +2609,8 @@
   "Show Page Thumbnails": "გვერდის მინიატურების ჩვენება",
   "Allow Self-Signed Certificate": "თვითხელმოწერილი სერტიფიკატის დაშვება",
   "Skips certificate checks for this server. Turn it off if the server has a valid certificate": "გამოტოვებს ამ სერვერის სერტიფიკატის შემოწმებას. გამორთეთ, თუ სერვერს აქვს მოქმედი სერტიფიკატი",
-  "Some changes didn't sync because this device's clock is off. Set the date and time automatically, then try again.": "ზოგიერთი ცვლილება არ სინქრონიზდა, რადგან ამ მოწყობილობის საათი არასწორია. დააყენეთ თარიღი და დრო ავტომატურად და სცადეთ ხელახლა."
+  "Some changes didn't sync because this device's clock is off. Set the date and time automatically, then try again.": "ზოგიერთი ცვლილება არ სინქრონიზდა, რადგან ამ მოწყობილობის საათი არასწორია. დააყენეთ თარიღი და დრო ავტომატურად და სცადეთ ხელახლა.",
+  "Claude (Anthropic)": "Claude (Anthropic)",
+  "Claude Configuration": "Claude-ს კონფიგურაცია",
+  "Bring your own Anthropic API key. Claude has no embedding model, so book search uses keyword matching.": "გამოიყენეთ თქვენი Anthropic API გასაღები. Claude-ს არ აქვს ჩაშენების მოდელი, ამიტომ წიგნში ძიება საკვანძო სიტყვების დამთხვევით ხდება."
 }

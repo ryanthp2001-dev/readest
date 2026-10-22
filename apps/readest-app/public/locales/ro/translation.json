@@ -2674,5 +2674,8 @@
   "Show Page Thumbnails": "Afișează miniaturile paginilor",
   "Allow Self-Signed Certificate": "Permite certificat autosemnat",
   "Skips certificate checks for this server. Turn it off if the server has a valid certificate": "Omite verificarea certificatului pentru acest server. Dezactivează opțiunea dacă serverul are un certificat valid",
-  "Some changes didn't sync because this device's clock is off. Set the date and time automatically, then try again.": "Unele modificări nu s-au sincronizat deoarece ceasul acestui dispozitiv nu este corect. Setați data și ora automat, apoi încercați din nou."
+  "Some changes didn't sync because this device's clock is off. Set the date and time automatically, then try again.": "Unele modificări nu s-au sincronizat deoarece ceasul acestui dispozitiv nu este corect. Setați data și ora automat, apoi încercați din nou.",
+  "Claude (Anthropic)": "Claude (Anthropic)",
+  "Claude Configuration": "Configurare Claude",
+  "Bring your own Anthropic API key. Claude has no embedding model, so book search uses keyword matching.": "Folosește propria cheie API Anthropic. Claude nu are un model de embedding, așa că căutarea în carte folosește potrivirea cuvintelor-cheie."
 }

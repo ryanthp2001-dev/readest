@@ -10,7 +10,12 @@ import {
   fetchOpenRouterModels,
   type OpenRouterModelInfo,
 } from '@/services/ai/providers/OpenRouterProvider';
-import { DEFAULT_AI_SETTINGS, GATEWAY_MODELS, MODEL_PRICING } from '@/services/ai/constants';
+import {
+  ANTHROPIC_MODELS,
+  DEFAULT_AI_SETTINGS,
+  GATEWAY_MODELS,
+  MODEL_PRICING,
+} from '@/services/ai/constants';
 import type { AISettings, AIProviderName } from '@/services/ai/types';
 import { exportReedyMetricsBundle } from '@/services/reedy/instrumentation';
 import { isTauriAppPlatform } from '@/services/environment';
@@ -67,6 +72,12 @@ const getModelOptions = (): ModelOption[] => [
   },
 ];
 
+const ANTHROPIC_MODEL_OPTIONS = [
+  { id: ANTHROPIC_MODELS.OPUS, label: 'Claude Opus 5.5' },
+  { id: ANTHROPIC_MODELS.SONNET, label: 'Claude Sonnet 5.5' },
+  { id: ANTHROPIC_MODELS.HAIKU, label: 'Claude Haiku 5.5' },
+];
+
 const AIPanel: React.FC = () => {
   const _ = useTranslation();
   const { envConfig, appService } = useEnv();
@@ -99,6 +110,11 @@ const AIPanel: React.FC = () => {
   const [openrouterModels, setOpenrouterModels] = useState<OpenRouterModelInfo[]>([]);
   const [openrouterFetchingModels, setOpenrouterFetchingModels] = useState(false);
   const [openrouterModelsError, setOpenrouterModelsError] = useState('');
+
+  const [anthropicKey, setAnthropicKey] = useState(aiSettings.anthropicApiKey ?? '');
+  const [anthropicModel, setAnthropicModel] = useState(
+    aiSettings.anthropicModel ?? ANTHROPIC_MODELS.OPUS,
+  );
 
   const savedCustomModel = aiSettings.aiGatewayCustomModel ?? '';
   const savedModel = aiSettings.aiGatewayModel ?? DEFAULT_AI_SETTINGS.aiGatewayModel ?? '';
@@ -288,6 +304,22 @@ const AIPanel: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [openrouterEmbeddingModel]);
 
+  useEffect(() => {
+    if (!isMounted.current) return;
+    if (anthropicKey !== (aiSettings.anthropicApiKey ?? '')) {
+      saveAiSetting('anthropicApiKey', anthropicKey);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [anthropicKey]);
+
+  useEffect(() => {
+    if (!isMounted.current) return;
+    if (anthropicModel !== (aiSettings.anthropicModel ?? ANTHROPIC_MODELS.OPUS)) {
+      saveAiSetting('anthropicModel', anthropicModel);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [anthropicModel]);
+
   // Get the effective model ID to use (either selected or custom)
   const getEffectiveModelId = useCallback(() => {
     if (selectedModel === CUSTOM_MODEL_VALUE && customModelStatus === 'valid') {
@@ -382,6 +414,8 @@ const AIPanel: React.FC = () => {
         openrouterBaseUrl: openrouterUrl,
         openrouterModel,
         openrouterEmbeddingModel,
+        anthropicApiKey: anthropicKey,
+        anthropicModel,
       };
       const aiProvider = getAIProvider(testSettings);
       const isHealthy = await aiProvider.healthCheck();
@@ -441,6 +475,16 @@ const AIPanel: React.FC = () => {
             className='radio'
             checked={provider === 'openrouter'}
             onChange={() => setProvider('openrouter')}
+            disabled={!enabled}
+          />
+        </SettingsRow>
+        <SettingsRow label={_('Claude (Anthropic)')} asLabel>
+          <input
+            type='radio'
+            name='ai-provider'
+            className='radio'
+            checked={provider === 'anthropic'}
+            onChange={() => setProvider('anthropic')}
             disabled={!enabled}
           />
         </SettingsRow>
@@ -738,6 +782,54 @@ const AIPanel: React.FC = () => {
                 'Optional. Leave blank if your endpoint does not support embeddings — chat will still work but RAG features will be unavailable.',
               )}
             </span>
+          </div>
+        </BoxedList>
+      )}
+
+      {provider === 'anthropic' && (
+        <BoxedList
+          title={_('Claude Configuration')}
+          description={_(
+            'Bring your own Anthropic API key. Claude has no embedding model, so book search uses keyword matching.',
+          )}
+          className={disabledSection}
+        >
+          <div className='flex flex-col gap-2 pe-4 py-3'>
+            <div className='flex w-full items-center justify-between'>
+              <SettingLabel>{_('API Key')}</SettingLabel>
+              <a
+                href='https://console.anthropic.com/settings/keys'
+                target='_blank'
+                rel='noopener noreferrer'
+                className={clsx('link text-xs', !enabled && 'pointer-events-none')}
+              >
+                {_('Get Key')}
+              </a>
+            </div>
+            <input
+              type='password'
+              className='input input-sm w-full'
+              value={anthropicKey}
+              onChange={(e) => setAnthropicKey(e.target.value)}
+              placeholder='sk-ant-...'
+              disabled={!enabled}
+              autoComplete='off'
+            />
+          </div>
+          <div className='flex flex-col gap-2 pe-4 py-3'>
+            <SettingLabel>{_('LLM Model')}</SettingLabel>
+            <select
+              className='select select-sm bg-base-100 text-base-content w-full'
+              value={anthropicModel}
+              onChange={(e) => setAnthropicModel(e.target.value)}
+              disabled={!enabled}
+            >
+              {ANTHROPIC_MODEL_OPTIONS.map((m) => (
+                <option key={m.id} value={m.id}>
+                  {m.label}
+                </option>
+              ))}
+            </select>
           </div>
         </BoxedList>
       )}

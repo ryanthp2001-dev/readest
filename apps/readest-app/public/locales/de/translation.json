@@ -2609,5 +2609,8 @@
   "Show Page Thumbnails": "Seitenvorschaubilder anzeigen",
   "Allow Self-Signed Certificate": "Selbstsigniertes Zertifikat erlauben",
   "Skips certificate checks for this server. Turn it off if the server has a valid certificate": "Überspringt die Zertifikatsprüfung für diesen Server. Deaktiviere es, wenn der Server ein gültiges Zertifikat hat",
-  "Some changes didn't sync because this device's clock is off. Set the date and time automatically, then try again.": "Einige Änderungen wurden nicht synchronisiert, weil die Uhr dieses Geräts falsch geht. Stelle Datum und Uhrzeit auf automatisch und versuche es erneut."
+  "Some changes didn't sync because this device's clock is off. Set the date and time automatically, then try again.": "Einige Änderungen wurden nicht synchronisiert, weil die Uhr dieses Geräts falsch geht. Stelle Datum und Uhrzeit auf automatisch und versuche es erneut.",
+  "Claude (Anthropic)": "Claude (Anthropic)",
+  "Claude Configuration": "Claude-Konfiguration",
+  "Bring your own Anthropic API key. Claude has no embedding model, so book search uses keyword matching.": "Verwende deinen eigenen Anthropic-API-Schlüssel. Claude hat kein Embedding-Modell, daher nutzt die Buchsuche Stichwortabgleich."
 }

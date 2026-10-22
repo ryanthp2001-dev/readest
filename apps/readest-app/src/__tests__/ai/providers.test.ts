@@ -33,9 +33,16 @@ vi.mock('@ai-sdk/openai-compatible', () => ({
   })),
 }));
 
+// mock @ai-sdk/anthropic so AnthropicProvider can be constructed offline.
+const mockAnthropicModel = vi.fn((modelId: string) => ({ modelId }));
+vi.mock('@ai-sdk/anthropic', () => ({
+  createAnthropic: vi.fn(() => mockAnthropicModel),
+}));
+
 import { OllamaProvider } from '@/services/ai/providers/OllamaProvider';
 import { AIGatewayProvider } from '@/services/ai/providers/AIGatewayProvider';
 import { OpenRouterProvider } from '@/services/ai/providers/OpenRouterProvider';
+import { AnthropicProvider } from '@/services/ai/providers/AnthropicProvider';
 import { getAIProvider } from '@/services/ai/providers';
 import type { AISettings } from '@/services/ai/types';
 import { DEFAULT_AI_SETTINGS } from '@/services/ai/constants';
@@ -307,5 +314,63 @@ describe('getAIProvider', () => {
     } as AISettings;
 
     expect(() => getAIProvider(settings)).toThrow('Unknown provider');
+  });
+
+  test('getAIProvider returns an Anthropic provider when it has an API key', () => {
+    const settings: AISettings = {
+      ...DEFAULT_AI_SETTINGS,
+      enabled: true,
+      provider: 'anthropic',
+      anthropicApiKey: 'sk-ant-test',
+    };
+    expect(getAIProvider(settings)).toBeInstanceOf(AnthropicProvider);
+  });
+
+  test('getAIProvider throws when anthropic has no API key', () => {
+    const settings: AISettings = { ...DEFAULT_AI_SETTINGS, enabled: true, provider: 'anthropic' };
+    expect(() => getAIProvider(settings)).toThrow('API key required for Anthropic');
+  });
+});
+
+describe('AnthropicProvider', () => {
+  const settings: AISettings = {
+    ...DEFAULT_AI_SETTINGS,
+    enabled: true,
+    provider: 'anthropic',
+    anthropicApiKey: 'sk-ant-test',
+  };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  test('uses Claude Opus 5.5 when no model is chosen', () => {
+    new AnthropicProvider(settings).getModel();
+    expect(mockAnthropicModel).toHaveBeenCalledWith('claude-opus-5-5');
+  });
+
+  test('uses the chosen model', () => {
+    new AnthropicProvider({ ...settings, anthropicModel: 'claude-haiku-5-5' }).getModel();
+    expect(mockAnthropicModel).toHaveBeenCalledWith('claude-haiku-5-5');
+  });
+
+  test('has no embedding model', () => {
+    expect(new AnthropicProvider(settings).getEmbeddingModel()).toBeNull();
+  });
+
+  test('healthCheck lists models with the API key', async () => {
+    mockFetch.mockResolvedValueOnce({ ok: true });
+    const result = await new AnthropicProvider(settings).healthCheck();
+
+    expect(result).toBe(true);
+    const [url, init] = mockFetch.mock.calls[0]!;
+    expect(url).toBe('https://api.anthropic.com/v1/models');
+    expect(init.headers['x-api-key']).toBe('sk-ant-test');
+    expect(init.headers['anthropic-version']).toBe('2023-06-01');
+  });
+
+  test('healthCheck returns false when the key is rejected', async () => {
+    mockFetch.mockResolvedValueOnce({ ok: false, status: 401 });
+    expect(await new AnthropicProvider(settings).healthCheck()).toBe(false);
   });
 });

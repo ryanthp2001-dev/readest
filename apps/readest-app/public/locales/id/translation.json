@@ -2544,5 +2544,8 @@
   "Show Page Thumbnails": "Tampilkan Gambar Mini Halaman",
   "Allow Self-Signed Certificate": "Izinkan Sertifikat Tanda Tangan Sendiri",
   "Skips certificate checks for this server. Turn it off if the server has a valid certificate": "Melewati pemeriksaan sertifikat untuk server ini. Matikan jika server memiliki sertifikat yang valid",
-  "Some changes didn't sync because this device's clock is off. Set the date and time automatically, then try again.": "Beberapa perubahan tidak tersinkron karena jam perangkat ini tidak tepat. Atur tanggal dan waktu secara otomatis, lalu coba lagi."
+  "Some changes didn't sync because this device's clock is off. Set the date and time automatically, then try again.": "Beberapa perubahan tidak tersinkron karena jam perangkat ini tidak tepat. Atur tanggal dan waktu secara otomatis, lalu coba lagi.",
+  "Claude (Anthropic)": "Claude (Anthropic)",
+  "Claude Configuration": "Konfigurasi Claude",
+  "Bring your own Anthropic API key. Claude has no embedding model, so book search uses keyword matching.": "Gunakan kunci API Anthropic Anda sendiri. Claude tidak memiliki model embedding, jadi pencarian buku menggunakan pencocokan kata kunci."
 }

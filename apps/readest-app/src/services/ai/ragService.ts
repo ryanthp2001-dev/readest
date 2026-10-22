@@ -116,35 +116,44 @@ export async function indexBook(
       return;
     }
 
-    onProgress?.({ current: 0, total: allChunks.length, phase: 'embedding' });
-    const embeddingModelName =
-      settings.provider === 'ollama'
+    const embeddingModel = provider.getEmbeddingModel();
+    const embeddingModelName = !embeddingModel
+      ? 'none'
+      : settings.provider === 'ollama'
         ? settings.ollamaEmbeddingModel
         : settings.provider === 'openrouter'
           ? settings.openrouterEmbeddingModel || 'text-embedding-3-small'
           : settings.aiGatewayEmbeddingModel || 'text-embedding-3-small';
-    aiLogger.embedding.start(embeddingModelName, allChunks.length);
 
-    const texts = allChunks.map((c) => c.text);
-    try {
-      const { embeddings } = await withRetryAndTimeout(
-        () =>
-          embedMany({
-            model: provider.getEmbeddingModel(),
-            values: texts,
-          }),
-        AI_TIMEOUTS.EMBEDDING_BATCH,
-        AI_RETRY_CONFIGS.EMBEDDING,
-      );
+    if (embeddingModel) {
+      onProgress?.({ current: 0, total: allChunks.length, phase: 'embedding' });
+      aiLogger.embedding.start(embeddingModelName, allChunks.length);
 
-      for (let i = 0; i < allChunks.length; i++) {
-        allChunks[i]!.embedding = embeddings[i];
+      const texts = allChunks.map((c) => c.text);
+      try {
+        const { embeddings } = await withRetryAndTimeout(
+          () =>
+            embedMany({
+              model: embeddingModel,
+              values: texts,
+            }),
+          AI_TIMEOUTS.EMBEDDING_BATCH,
+          AI_RETRY_CONFIGS.EMBEDDING,
+        );
+
+        for (let i = 0; i < allChunks.length; i++) {
+          allChunks[i]!.embedding = embeddings[i];
+        }
+        onProgress?.({ current: allChunks.length, total: allChunks.length, phase: 'embedding' });
+        aiLogger.embedding.complete(
+          embeddings.length,
+          allChunks.length,
+          embeddings[0]?.length || 0,
+        );
+      } catch (e) {
+        aiLogger.embedding.error('batch', (e as Error).message);
+        throw e;
       }
-      onProgress?.({ current: allChunks.length, total: allChunks.length, phase: 'embedding' });
-      aiLogger.embedding.complete(embeddings.length, allChunks.length, embeddings[0]?.length || 0);
-    } catch (e) {
-      aiLogger.embedding.error('batch', (e as Error).message);
-      throw e;
     }
 
     onProgress?.({ current: 0, total: 2, phase: 'indexing' });
@@ -183,23 +192,25 @@ export async function hybridSearch(
   maxPage?: number,
 ): Promise<ScoredChunk[]> {
   aiLogger.search.query(query, maxPage);
-  const provider = getAIProvider(settings);
+  const embeddingModel = getAIProvider(settings).getEmbeddingModel();
   let queryEmbedding: number[] | null = null;
 
-  try {
-    // use AI SDK embed with provider's embedding model
-    const { embedding } = await withRetryAndTimeout(
-      () =>
-        embed({
-          model: provider.getEmbeddingModel(),
-          value: query,
-        }),
-      AI_TIMEOUTS.EMBEDDING_SINGLE,
-      AI_RETRY_CONFIGS.EMBEDDING,
-    );
-    queryEmbedding = embedding;
-  } catch {
-    // bm25 only fallback
+  if (embeddingModel) {
+    try {
+      // use AI SDK embed with provider's embedding model
+      const { embedding } = await withRetryAndTimeout(
+        () =>
+          embed({
+            model: embeddingModel,
+            value: query,
+          }),
+        AI_TIMEOUTS.EMBEDDING_SINGLE,
+        AI_RETRY_CONFIGS.EMBEDDING,
+      );
+      queryEmbedding = embedding;
+    } catch {
+      // bm25 only fallback
+    }
   }
 
   const results = await aiStore.hybridSearch(bookHash, queryEmbedding, query, topK, maxPage);
