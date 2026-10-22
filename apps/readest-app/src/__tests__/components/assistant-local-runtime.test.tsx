@@ -1,6 +1,5 @@
 import { describe, test, expect, vi, afterEach } from 'vitest';
 import { render, cleanup } from '@testing-library/react';
-import React from 'react';
 import {
   AssistantRuntimeProvider,
   useLocalRuntime,
